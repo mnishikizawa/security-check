@@ -37,7 +37,6 @@ cmd = 'yum --security check-update'
 #       yum install -y yum-plugin-changelog
 
 def updateExists(host)
-  #Net::SSH.start(host, "nagios", :keys => ['~/.ssh/id_dsa_nagios']) do |ssh|
   Net::SSH.start(host, "vagrant", :config => ['./ssh_config']) do |ssh|
     ssh.open_channel do |channel|
 
@@ -65,7 +64,6 @@ end
 
 def cvesExists(server)
 @update_packages = Hash.new
-  #Net::SSH.start(server, "nagios", :keys => ['~/.ssh/id_dsa_nagios']) do |ssh|
   Net::SSH.start(server, "vagrant", :config => ['./ssh_config']) do |ssh|
     @check_update.keys.each do |key|
       ssh.open_channel do |channel|
@@ -109,7 +107,6 @@ CONFIG[environment].each do |roles, servers|
           @check_update = Hash.new
           @output.split("\n").each do |line|
             unless line.empty?
-              #$check_update.store(line.split(" ")[0].sub(".x86_64", ""), line.split(" ")[1])
               @check_update.store(line.split(" ")[0], line.split(" ")[1])
             end
           end
